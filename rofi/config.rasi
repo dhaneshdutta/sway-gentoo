@@ -1,0 +1,16 @@
+@import "~/.config/rofi/themes/gruvbox-dark.rasi"
+
+configuration {
+    modi: "drun";
+    lines: 10;
+    columns: 1;
+    font: "Iosevka Nerd Font Propo 12";
+    show-icons: false;
+    terminal: "foot";
+    cycle: true;
+    matching: "fuzzy";
+    location: 0;
+    padding: 5;
+    fullscreen: false;
+}
+
