@@ -1,0 +1,33 @@
+#!/bin/sh
+# sway-lock-blur: Minimal monochrome lock for swayfx (fixed version)
+
+tmpbg="$(mktemp /tmp/swaylock-XXXXXX.png)"
+
+# Take screenshot + blur efficiently (IMv7 uses `magick`)
+grim -t png - \
+  | magick - -resize 20% -blur 0x8 -resize 500% "$tmpbg"
+
+swaylock \
+  --image "$tmpbg" \
+  --indicator \
+  --indicator-radius 120 \
+  --indicator-thickness 8 \
+  --ring-color 222222 \
+  --ring-ver-color 333333 \
+  --ring-wrong-color 552222 \
+  --inside-color 00000099 \
+  --inside-ver-color 000000aa \
+  --inside-wrong-color 220000aa \
+  --line-color 00000000 \
+  --separator-color 00000000 \
+  --text-color eeeeee \
+  --text-ver-color eeeeee \
+  --text-wrong-color eeeeee \
+  --key-hl-color ffffff \
+  --bs-hl-color ff5555 \
+  --fade-in 0.3 \
+  --grace 2 \
+  --effect-blur 7x5
+
+rm -f "$tmpbg"
+
