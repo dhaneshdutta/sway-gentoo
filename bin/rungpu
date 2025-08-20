@@ -1,0 +1,5 @@
+#!/bin/sh
+DRI_PRIME=1 \
+VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/nvidia_icd.json \
+__GLX_VENDOR_LIBRARY_NAME=nvidia \
+"$@"
