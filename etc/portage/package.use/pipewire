@@ -1,0 +1,4 @@
+media-video/pipewire X dbus elogind readline ssl sound-server ffmpeg bluetooth extra
+media-video/wireplumber elogind
+media-plugins/alsa-plugins pipewire
+media-sound/pavucontrol

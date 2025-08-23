@@ -1,0 +1,2 @@
+games-util/steam-client-meta -steamruntime
+games-util/steam-launcher trayicon -steamruntime
