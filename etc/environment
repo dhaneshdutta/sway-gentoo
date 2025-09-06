@@ -4,3 +4,14 @@
 # Syntax: simple "KEY=VAL" pairs on separate lines
 #
 __GL_SHADER_DISK_CACHE_SIZE=10737418240
+EDITOR=/usr/bin/nvim
+WLR_DRM_DEVICES=/dev/dri/card0
+SDL_VIDEODRIVER=wayland
+MOZ_ENABLE_WAYLAND=1
+XDG_CURRENT_DESKTOP=sway
+XDG_SESSION_TYPE=wayland
+QT_QPA_PLATFORM=wayland
+DRI_PRIME=0
+LIBVA_DRIVER_NAME=iHD
+VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/intel_icd.x86_64.json
+QT_QPA_PLATFORMTHEME=qt6ct
