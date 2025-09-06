@@ -1,0 +1,60 @@
+#!/bin/sh
+# set-dns: Choose DNS for the "OnePlus" connection via NetworkManager
+# Usage: doas set-dns
+
+CONN="OnePlus"
+
+# Define DNS providers
+providers() {
+    cat <<EOF
+1) DNS0.eu (Unfiltered)   -> 193.110.81.0 185.253.5.0 / 2a0f:fc80:: 2a0f:fc81::
+2) Cloudflare             -> 1.1.1.1 1.0.0.1 / 2606:4700:4700::1111 2606:4700:4700::1001
+3) Google Public DNS      -> 8.8.8.8 8.8.4.4 / 2001:4860:4860::8888 2001:4860:4860::8844
+4) Quad9 (Unfiltered)     -> 9.9.9.9 149.112.112.112 / 2620:fe::fe 2620:fe::9
+5) AdGuard DNS            -> 94.140.14.14 94.140.15.15 / 2a10:50c0::ad1:ff 2a10:50c0::ad2:ff
+EOF
+}
+
+apply_dns() {
+    NAME="$1"
+    DNS4="$2"
+    DNS6="$3"
+
+    echo "Applying $NAME to $CONN..."
+    nmcli connection modify "$CONN" ipv4.ignore-auto-dns yes
+    nmcli connection modify "$CONN" ipv4.dns "$DNS4"
+    nmcli connection modify "$CONN" ipv6.ignore-auto-dns yes
+    nmcli connection modify "$CONN" ipv6.dns "$DNS6"
+
+    echo "Restarting connection..."
+    nmcli connection down "$CONN" && nmcli connection up "$CONN"
+
+    echo "Done. Current resolvers:"
+    resolvectl status 2>/dev/null || cat /etc/resolv.conf
+}
+
+# Menu
+echo "Select a DNS provider for $CONN:"
+providers
+printf "Enter choice [1-5]: "
+read choice
+
+case "$choice" in
+    1) apply_dns "DNS0.eu (Unfiltered)" \
+        "193.110.81.0 185.253.5.0" \
+        "2a0f:fc80:: 2a0f:fc81::" ;;
+    2) apply_dns "Cloudflare" \
+        "1.1.1.1 1.0.0.1" \
+        "2606:4700:4700::1111 2606:4700:4700::1001" ;;
+    3) apply_dns "Google Public DNS" \
+        "8.8.8.8 8.8.4.4" \
+        "2001:4860:4860::8888 2001:4860:4860::8844" ;;
+    4) apply_dns "Quad9 (Unfiltered)" \
+        "9.9.9.9 149.112.112.112" \
+        "2620:fe::fe 2620:fe::9" ;;
+    5) apply_dns "AdGuard DNS" \
+        "94.140.14.14 94.140.15.15" \
+        "2a10:50c0::ad1:ff 2a10:50c0::ad2:ff" ;;
+    *) echo "Invalid choice"; exit 1 ;;
+esac
+
