@@ -1,4 +1,4 @@
-output eDP-1 mode 1920x1080@144hz
+output eDP-1 mode 1920x1080@144hz scale 1
 
 font pango:Iosevka Nerd Font Propo 10
 default_border none
@@ -128,12 +128,16 @@ bindsym $mod+r mode "resize"
     bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume \@DEFAULT_SINK@ -5%
     bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume \@DEFAULT_SINK@ +5%
     bindsym --locked XF86AudioMicMute exec pactl set-source-mute \@DEFAULT_SOURCE@ toggle
-    bindsym --locked XF86MonBrightnessDown exec brightnessctl set 10%-
-    bindsym --locked XF86MonBrightnessUp exec brightnessctl set 10%+
+    bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+    bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
     bindsym Print exec grim - | tee ~/pix/sshots/full_$(date +'%Y-%m-%d_%H-%M-%S').png | wl-copy
     bindsym Shift+Print exec grim -g "$(slurp)" - | tee ~/pix/sshots/region_$(date +'%Y-%m-%d_%H-%M-%S').png | wl-copy
 
     bindsym $mod+Shift+b exec blueman-manager
+    
+    bindsym $mod+Shift+F11 exec swaymsg output eDP-1 mode 1920x1080@60Hz
+    bindsym $mod+Shift+F12 exec swaymsg output eDP-1 mode 1920x1080@144Hz
+    bindsym $mod+c exec mpv av://v4l2:/dev/video0 --vf=hflip
 
     for_window [app_id="pavucontrol"] floating enable, move position center, resize set 800 600  
     for_window [app_id="blueman-manager"] floating enable, move position center, resize set 800 600  
@@ -146,9 +150,6 @@ bar {
     position top
     font pango:Iosevka Nerd Font Propo 10
     separator_symbol " | "
-    
-    tray_output all
-
     colors {
         statusline #EAEAEA
         background #1d1d1d
